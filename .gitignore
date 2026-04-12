@@ -1,0 +1,42 @@
+# ═══════════════════════════════════════
+# SEGURANÇA — NUNCA SUBIR ESSES ARQUIVOS
+# ═══════════════════════════════════════
+src/main/kotlin/com/ecocontroll/mqtt/MqttConfig.kt
+src/main/kotlin/com/ecocontroll/domain/JwtConfig.kt
+
+# ═══════════════════════════════════════
+# GRADLE
+# ═══════════════════════════════════════
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ═══════════════════════════════════════
+# INTELLIJ IDEA
+# ═══════════════════════════════════════
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ═══════════════════════════════════════
+# BANCO DE DADOS LOCAL
+# ═══════════════════════════════════════
+*.db
+*.sqlite
+*.sqlite3
+
+# ═══════════════════════════════════════
+# SISTEMA OPERACIONAL
+# ═══════════════════════════════════════
+.DS_Store
+Thumbs.db
+
+# ═══════════════════════════════════════
+# LOGS
+# ═══════════════════════════════════════
+*.log
+logs/
