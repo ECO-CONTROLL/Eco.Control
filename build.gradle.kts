@@ -18,6 +18,7 @@ kotlin {
 dependencies {
 
     implementation(libs.ktor.server.call.logging)
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation(libs.ktor.server.cors)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.host.common)

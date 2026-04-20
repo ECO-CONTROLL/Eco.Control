@@ -1,13 +1,16 @@
 package com.ecocontroll.mqtt
 
+import io.github.cdimascio.dotenv.dotenv
+
 object MqttConfig {
-    val HOST = System.getenv("MQTT_HOST") ?: "localhost"
+    private val dotenv = dotenv()
 
-    // Pegamos a String e convertemos para Int. Se falhar, usa 8883.
-    val PORT = System.getenv("MQTT_PORT")?.toInt() ?: 8883
+    val HOST = dotenv["MQTT_HOST"]
 
-    val USER = System.getenv("MQTT_USER") ?: ""
-    val PASSWORD = System.getenv("MQTT_PASSWORD") ?: ""
-    val TOPIC = System.getenv("MQTT_TOPIC") ?: "cisterna/nivel"
-    val CLIENT_ID = System.getenv("MQTT_CLIENT_ID") ?: "eco-controll-backend"
+    val PORT = dotenv["MQTT_PORT"]?.toInt() ?: 8883
+
+    val USER = dotenv["MQTT_USER"] ?: ""
+    val PASSWORD = dotenv["MQTT_PASSWORD"] ?: ""
+    val TOPIC = dotenv["MQTT_TOPIC"] ?: "cisterna/nivel"
+    val CLIENT_ID = dotenv["MQTT_CLIENT_ID"] ?: "eco-controll-backend"
 }
