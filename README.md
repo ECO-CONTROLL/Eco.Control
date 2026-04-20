@@ -75,7 +75,8 @@ O servidor estará disponível em: http://localhost:8080
 | :--- | :--- | :--- |
 | `GET` | `/api/leituras/ultima` | Retorna o estado atual do sensor |
 | `GET` | `/api/leituras` | Lista as últimas 100 leituras |
-| `WS` | `/ws/nivel` | Canal WebSocket para dados em tempo real |
+| `WS` | `/ws/nivel` | Canal WebSocket para dados em tempo real |  
+
 Caso não tenha o ESP32 em mãos, use o MQTT Explorer:
 
 1.Conecte ao seu broker HiveMQ usando as mesmas credenciais do .env.
@@ -98,7 +99,5 @@ src/main/kotlin/com/ecocontroll/
 └── routes/         # Endpoints da API REST e WebSockets
 
 # 👥 Equipe
-
-    Vinicius Machado
-
-    Pedro Caldas
+- Vinicius Machado  
+- Pedro Caldas  
