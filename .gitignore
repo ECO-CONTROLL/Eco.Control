@@ -1,9 +1,9 @@
 # ═══════════════════════════════════════
 # SEGURANÇA — NUNCA SUBIR ESSES ARQUIVOS
 # ═══════════════════════════════════════
-src/main/kotlin/com/ecocontroll/mqtt/MqttConfig.kt
-src/main/kotlin/com/ecocontroll/domain/JwtConfig.kt
-
+.env
+# Os arquivos .kt foram removidos daqui porque agora
+# usam variáveis de ambiente e são seguros para subir.
 # ═══════════════════════════════════════
 # GRADLE
 # ═══════════════════════════════════════

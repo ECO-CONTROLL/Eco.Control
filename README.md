@@ -1,183 +1,104 @@
 # 🚰 EcoControll — Backend
 
-Backend do sistema de monitoramento inteligente de cisternas.
-Desenvolvido com Ktor + Kotlin para o TCC do curso técnico de Desenvolvimento de Sistemas.
+Backend do sistema de monitoramento inteligente de cisternas.  
+Desenvolvido com Ktor + Kotlin para o TCC do curso técnico de Desenvolvimento de Sistemas (2025/2026).
 
----
 
-## 🏗️ Arquitetura
-ESP32 + Sensor Ultrassônico
-↓ MQTT
-HiveMQ Cloud (Broker)
-↓ Subscribe
-Ktor Backend (este projeto)
-↓ REST API + WebSocket
-App Android EcoControll
+# 🏗️ Arquitetura do Sistema
 
----
+    Hardware: ESP32 + Sensor Ultrassônico detectam o nível.
 
-## 🛠️ Tecnologias
+    Protocolo: Envio via MQTT para o broker HiveMQ Cloud.
 
-- **Kotlin** + **Ktor 3** — servidor backend
-- **SQLite** + **Exposed ORM** — banco de dados local
-- **HiveMQ MQTT Client** — comunicação IoT
-- **JWT** — autenticação
-- **WebSocket** — dados em tempo real para o app
+    Backend: Este servidor (Ktor) consome os dados, armazena no SQLite e autentica usuários via JWT.
 
----
+    Frontend: App Android recebe dados em tempo real via WebSockets.
 
-## ⚙️ Pré-requisitos
+# 🚀 Como Executar
 
-- JDK 17 ou superior
-- IntelliJ IDEA (Community ou Ultimate)
-- Conta gratuita no [HiveMQ Cloud](https://www.hivemq.com/mqtt-cloud-broker/)
-
----
-
-## 🚀 Como rodar
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/ECO-CONTROLL/Eco.Control.git
-cd Eco.Control
+1. Para clonar o Repositório Primeiro, baixe o projeto para sua máquina:
 ```
-
-### 2. Configure as credenciais MQTT
-
-Copie o arquivo de exemplo e preencha com suas credenciais:
-
-```bash
-cp src/main/kotlin/com/ecocontroll/mqtt/MqttConfig.example.kt \
-   src/main/kotlin/com/ecocontroll/mqtt/MqttConfig.kt
+git clone https://github.com/ECO-CONTROLL/Eco.Control.git  
+cd Eco.Control  
 ```
+2. Configurar o Ambiente (.env):
 
-Edite o `MqttConfig.kt` com os dados do seu cluster HiveMQ:
-
-```kotlin
-object MqttConfig {
-    const val HOST      = "SEU_CLUSTER.s1.eu.hivemq.cloud"
-    const val PORT      = 8883
-    const val USER      = "SEU_USUARIO"
-    const val PASSWORD  = "SUA_SENHA"
-    const val TOPIC     = "cisterna/nivel"
-    const val CLIENT_ID = "eco-controll-backend"
-}
+Dentro da pasta raiz do projeto, crie um arquivo chamado .env e preencha com suas credenciais:
+Snippet de código
 ```
+//Configurações do JWT
+JWT_SECRET=coloque_uma_chave_longa_e_aleatoria
+JWT_ISSUER=ecocontroll-backend
 
-### 3. Rode o servidor
-
-```bash
-./gradlew run
+//Configurações do HiveMQ (MQTT)
+MQTT_HOST=seu_cluster.s1.eu.hivemq.cloud
+MQTT_PORT=8883
+MQTT_USER=seu_usuario
+MQTT_PASSWORD=sua_senha
+MQTT_TOPIC=cisterna/nivel
+MQTT_CLIENT_ID=eco-controll-backend
 ```
+3. Configurar o IntelliJ (Plugin EnvFile)
 
-O servidor sobe em `http://localhost:8080`
+* Para o projeto ler o arquivo .env que você acabou de criar, siga estes passos:
 
----
+* Vá em Settings > Plugins e instale o plugin EnvFile.
 
-## 📡 Endpoints da API
+* No topo do IntelliJ, clique em Edit Configurations (ao lado do botão Play).
 
-Todas as rotas (exceto login) exigem header:
-Authorization: Bearer <token>
+* Selecione a sua aplicação e clique na aba EnvFile.
+
+* Marque a caixa Enable EnvFile.
+
+* Clique no ícone de +, selecione .env file e escolha o arquivo .env que você criou no passo 2.
+
+4. Rodar o Servidor
+
+Agora é só dar o Play no IntelliJ ou usar o terminal:
+
+`
+./gradlew run  
+`
+O servidor estará disponível em: http://localhost:8080
+
+## 📡 Documentação da API
 
 ### Autenticação
 | Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/auth/login` | Login e geração do JWT |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/login` | Login e geração do token JWT |
 
-**Body do login:**
-```json
+> **Nota:** Header necessário para as demais rotas: `Authorization: Bearer <token>`
+
+### Monitoramento
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/api/leituras/ultima` | Retorna o estado atual do sensor |
+| `GET` | `/api/leituras` | Lista as últimas 100 leituras |
+| `WS` | `/ws/nivel` | Canal WebSocket para dados em tempo real |
+Caso não tenha o ESP32 em mãos, use o MQTT Explorer:
+
+1.Conecte ao seu broker HiveMQ usando as mesmas credenciais do .env.
+2.Publique no tópico cisterna/nivel o seguinte JSON:
+```
 {
-  "usuario": "admin",
-  "senha": "cisterna123"
+  "nivelCm": 85.5,
+  "timestamp": 1713542384
 }
 ```
 
-### Leituras
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/leituras/ultima` | Última leitura do sensor |
-| GET | `/api/leituras` | Últimas 100 leituras |
-| GET | `/api/leituras/historico?horas=24` | Histórico agrupado por hora |
+# 📁 Organização do Projeto
 
-### Cisterna
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/cisterna/config` | Configuração atual |
-| PUT | `/api/cisterna/config` | Atualiza configuração |
 
-### Alertas
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/alertas` | Todos os alertas |
-| GET | `/api/alertas/nao-lidos` | Alertas não lidos |
-| PATCH | `/api/alertas/{id}/lido` | Marca alerta como lido |
+src/main/kotlin/com/ecocontroll/  
+├── data/           # Banco de Dados (Exposed + SQLite)  
+├── domain/         # Regras de Negócio e Serviços (Alertas, Sensores)  
+├── mqtt/           # Cliente MQTT e Configurações (Lê do .env)  
+├── plugins/        # Configurações do Ktor (Auth, Serialization)  
+└── routes/         # Endpoints da API REST e WebSockets
 
-### WebSocket
-ws://localhost:8080/ws/nivel
-Recebe leituras em tempo real a cada nova mensagem MQTT.
+# 👥 Equipe
 
----
+    Vinicius Machado
 
-## 📨 Formato MQTT
-
-**Tópico:** `cisterna/nivel`
-
-**Payload esperado:**
-```json
-{
-  "nivelCm": 80.0,
-  "timestamp": 1234567890
-}
-```
-
----
-
-## 🧪 Testando sem o ESP32
-
-Use o [MQTT Explorer](https://mqtt-explorer.com) para simular o sensor:
-Host:     SEU_CLUSTER.s1.eu.hivemq.cloud
-Port:     8883
-TLS:      ✅ ativado
-Username: SEU_USUARIO
-Password: SUA_SENHA
-
-Publique no tópico `cisterna/nivel` com o payload acima.
-
----
-
-## 🔔 Regras de alerta
-
-| Tipo | Condição |
-|------|----------|
-| `NIVEL_CRITICO` | Nível abaixo de 10% |
-| `NIVEL_BAIXO` | Nível abaixo de 30% |
-| `NIVEL_CHEIO` | Nível acima de 98% |
-| `SENSOR_OFFLINE` | Sem leitura há mais de 5 minutos |
-
----
-
-## 📁 Estrutura do projeto
-src/main/kotlin/com/ecocontroll/
-├── Application.kt
-├── data/
-│   ├── DatabaseFactory.kt
-│   ├── repository/
-│   └── tables/
-├── domain/
-│   ├── AlertaService.kt
-│   ├── SensorMonitor.kt
-│   └── WebSocketBroadcaster.kt
-├── models/
-├── mqtt/
-│   ├── MqttConfig.example.kt  ← versionar
-│   └── MqttConfig.kt          ← NÃO versionar (.gitignore)
-├── plugins/
-└── routes/
-
----
-
-## 👥 Equipe
-
-Desenvolvido por Vinicius, Samuel, Thiago, Pedro, Icaro, Rafael, Lincoln e Lukas
-Curso Técnico de Desenvolvimento de Sistemas — 2024/2025
+    Pedro Caldas
