@@ -14,20 +14,23 @@ import io.ktor.server.response.respond
 import kotlinx.coroutines.*
 
 fun main() {
+    val port = System.getenv("PORT")?.toInt() ?: 8080
+
     embeddedServer(
         CIO,
         host = "0.0.0.0",
-        port = System.getenv("PORT")?.toInt() ?: 8080
-        ) {
-            install(CORS) { anyHost() }
-        
-            install(StatusPages) {
-                exception<Throwable> { call, cause ->
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        "Erro interno: ${cause.message}"
-                    )
-                }
+        port = port
+    ) {
+        install(CORS) {
+            anyHost()
+        }
+
+        install(StatusPages) {
+            exception<Throwable> { call, cause ->
+                call.respond(
+                    HttpStatusCode.InternalServerError,
+                    "Erro interno: ${cause.message}"
+                )
             }
         }
 
@@ -40,6 +43,6 @@ fun main() {
         MqttService.connect()
         SensorMonitor.start()
 
-        println("🚀 EcoControll backend iniciado na porta 8080")
+        println("🚀 EcoControll backend iniciado na porta $port")
     }.start(wait = true)
 }
