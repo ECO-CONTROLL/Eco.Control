@@ -14,11 +14,20 @@ import io.ktor.server.response.respond
 import kotlinx.coroutines.*
 
 fun main() {
-    embeddedServer(CIO, port = 8080) {
-        install(CORS) { anyHost() }
-        install(StatusPages) {
-            exception<Throwable> { call, cause ->
-                call.respond(HttpStatusCode.InternalServerError, "Erro interno: ${cause.message}")
+    embeddedServer(
+        CIO,
+        host = "0.0.0.0",
+        port = System.getenv("PORT")?.toInt() ?: 8080
+        ) {
+            install(CORS) { anyHost() }
+        
+            install(StatusPages) {
+                exception<Throwable> { call, cause ->
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        "Erro interno: ${cause.message}"
+                    )
+                }
             }
         }
 
