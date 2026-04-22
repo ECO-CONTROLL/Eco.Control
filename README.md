@@ -59,7 +59,24 @@ Agora é só dar o Play no IntelliJ ou usar o terminal:
 `
 ./gradlew run  
 `
-O servidor estará disponível em: http://localhost:8080
+O servidor estará disponível em: http://seuip:8080
+
+# Como Executar o back end + front end
+
+1. Realize a instalação do back end no intellij e do front end no Android Studio
+
+2. Após isso, execute o comando:
+`
+./gradlew run  
+`
+
+3. Abra o app no celular, obrigatoriamente na mesma rede do computador e digite o usuario e senha de teste:
+`
+admin
+cisterna123 
+`
+
+4. Feche o app e abra novamente e veja ele abrir automaticamente pois verificou seu ultimo login!
 
 ## 📡 Documentação da API
 
