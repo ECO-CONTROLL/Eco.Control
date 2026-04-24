@@ -1,6 +1,7 @@
 package com.ecocontroll.models
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 @Serializable
 data class Leitura(
@@ -35,7 +36,60 @@ enum class TipoAlerta {
 }
 
 @Serializable
-data class MqttReading(val nivelCm: Double, val timestamp: Long)
+data class MqttReading(
+    val nivelCm: Double,
+    val timestamp: Long
+)
+
+
+//METODOS DE LOGIN E CADASTRO
+@Serializable
+data class LoginRequest(
+    val email: String,
+    val senha: String
+)
 
 @Serializable
-data class LoginRequest(val usuario: String, val senha: String)
+data class LoginResponse(
+    val message: String,
+    val token: String? = null
+)
+
+@Serializable
+data class RegisterRequest(
+    val nomeCompleto: String,
+    val nomeUsuario: String,
+    val email: String,
+    val senha: String
+)
+
+//CONTATO COMO O BANCO
+@Serializable
+data class SupabaseUserInsert(
+    @SerialName("nome_completo")
+    val nomeCompleto: String,
+
+    @SerialName("nome_usuario")
+    val nomeUsuario: String,
+
+    val email: String,
+
+    @SerialName("senha_hash")
+    val senhaHash: String
+)
+
+@Serializable
+data class SupabaseUserResponse(
+    val id: String,
+
+    @SerialName("nome_completo")
+    val nomeCompleto: String,
+
+    @SerialName("nome_usuario")
+    val nomeUsuario: String,
+
+    val email: String,
+
+    @SerialName("senha_hash")
+    val senhaHash: String
+)

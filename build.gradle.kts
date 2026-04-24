@@ -18,7 +18,6 @@ kotlin {
 dependencies {
 
     implementation(libs.ktor.server.call.logging)
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation(libs.ktor.server.cors)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.host.common)
@@ -38,6 +37,12 @@ dependencies {
     implementation(libs.java.jwt)
     implementation(libs.hivemq.mqtt.client)
     implementation(libs.kotlinx.serialization.json)
+    implementation("at.favre.lib:bcrypt:0.10.2")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-cio")
+    implementation("io.ktor:ktor-client-content-negotiation")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
 
     implementation(libs.logback.classic)
 
