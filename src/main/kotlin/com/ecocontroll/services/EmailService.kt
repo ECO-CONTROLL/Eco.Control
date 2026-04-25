@@ -76,7 +76,7 @@ suspend fun enviarEmailReset(
                 </div>
 
                 <p style="color: #777; font-size: 13px;">
-                    Este código expira em 3 minutos.
+                    Este código expira em 60 segundos.
                 </p>
 
                 <p style="color: #999; font-size: 12px; margin-top: 24px;">

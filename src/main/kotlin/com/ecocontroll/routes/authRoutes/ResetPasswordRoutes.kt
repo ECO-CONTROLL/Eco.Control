@@ -33,7 +33,7 @@ fun Route.passwordRecoveryRoutes() {
 
         val expiraEm = LocalDateTime
             .now()
-            .plusMinutes(3)
+            .plusSeconds(60)
             .toString()
 
         val resetToken = ResetTokenInsert(

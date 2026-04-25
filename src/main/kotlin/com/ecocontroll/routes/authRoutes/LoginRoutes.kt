@@ -43,21 +43,12 @@ fun Route.loginRoutes() {
             }
 
             val usuarios = response.body<List<SupabaseUserResponse>>()
-
-            if (usuarios.isEmpty()) {
-                return@post call.respond(
-                    HttpStatusCode.Unauthorized,
-                    LoginResponse(message = "Email ou senha inválidos")
-                )
-            }
-
             val usuario = usuarios.first()
 
             val senhaCorreta = BCrypt.verifyer()
-                .verify(login.senha.toCharArray(), usuario.senhaHash)
-                .verified
-
-            if (!senhaCorreta) {
+                    .verify(login.senha.toCharArray(), usuario.senhaHash)
+                    .verified
+            if (usuarios.isEmpty() || !senhaCorreta) {
                 return@post call.respond(
                     HttpStatusCode.Unauthorized,
                     LoginResponse(message = "Email ou senha inválidos")
