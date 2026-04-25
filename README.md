@@ -26,17 +26,25 @@ cd Eco.Control
 Dentro da pasta raiz do projeto, crie um arquivo chamado .env e preencha com suas credenciais:
 Snippet de código
 ```
-//Configurações do JWT
+#Configurações do JWT
 JWT_SECRET=coloque_uma_chave_longa_e_aleatoria
 JWT_ISSUER=ecocontroll-backend
 
-//Configurações do HiveMQ (MQTT)
+#%Configurações do HiveMQ (MQTT)
 MQTT_HOST=seu_cluster.s1.eu.hivemq.cloud
 MQTT_PORT=8883
 MQTT_USER=seu_usuario
 MQTT_PASSWORD=sua_senha
 MQTT_TOPIC=cisterna/nivel
 MQTT_CLIENT_ID=eco-controll-backend
+
+#CONFIG DO BANCO
+SUPABASE_URL=
+SUPABASE_KEY=
+
+#ENVIO DE EMAILS
+RESEND_API_KEY=
+EMAIL_FROM=
 ```
 3. Configurar o IntelliJ (Plugin EnvFile)
 
@@ -61,22 +69,6 @@ Agora é só dar o Play no IntelliJ ou usar o terminal:
 ```
 O servidor estará disponível em: http://seuip:8080
 
-# Como Executar o back end + front end
-
-1. Realize a instalação do back end no intellij e do front end no Android Studio
-
-2. Após isso, execute o comando:
-```
-./gradlew run  
-```
-
-3. Abra o app no celular, obrigatoriamente na mesma rede do computador e digite o usuario e senha de teste:
-```
-admin
-cisterna123 
-```
-
-4. Feche o app e abra novamente e veja ele abrir automaticamente pois verificou seu ultimo login!
 
 ## 📡 Documentação da API
 
