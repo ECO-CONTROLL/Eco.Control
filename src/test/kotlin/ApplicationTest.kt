@@ -3,6 +3,7 @@ package com
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import org.junit.jupiter.api.Test
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -3,6 +3,7 @@ package com.ecocontroll.routes.authRoutes
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.ecocontroll.services.enviarEmailReset
 import com.ecocontroll.models.*
+import com.ecocontroll.services.EmailClientProvider
 import com.ecocontroll.services.SupabaseClientProvider
 import io.github.cdimascio.dotenv.dotenv
 import io.ktor.client.call.*
@@ -17,7 +18,7 @@ fun Route.passwordRecoveryRoutes() {
     val client = SupabaseClientProvider.client
     val supabaseUrl = SupabaseClientProvider.supabaseUrl
     val supabaseKey = SupabaseClientProvider.supabaseKey
-    val resendApiKey = dotenv()["RESEND_API_KEY"]
+    val resendApiKey = EmailClientProvider.resendApiKey
 
     post("/forgot-password") {
         val request = call.receive<ForgotPasswordRequest>()

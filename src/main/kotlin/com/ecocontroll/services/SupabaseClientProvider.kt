@@ -19,6 +19,17 @@ object SupabaseClientProvider {
         }
     }
 
-    val supabaseUrl: String = dotenv()["SUPABASE_URL"]
-    val supabaseKey: String = dotenv()["SUPABASE_KEY"]
+    val dotenv = dotenv {
+        ignoreIfMissing = true
+    }
+
+    val supabaseUrl: String =
+        System.getenv("SUPABASE_URL")
+            ?: dotenv["SUPABASE_URL"]
+            ?: error("SUPABASE_URL não definida")
+
+    val supabaseKey: String =
+        System.getenv("SUPABASE_KEY")
+            ?: dotenv["SUPABASE_KEY"]
+            ?: error("SUPABASE_KEY não definida")
 }

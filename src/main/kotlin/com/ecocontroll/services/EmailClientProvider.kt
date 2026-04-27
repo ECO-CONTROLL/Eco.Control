@@ -9,5 +9,12 @@ import kotlinx.serialization.json.Json
 
 object EmailClientProvider {
 
-    val resendApiKey: String = dotenv()["RESEND_API_KEY"]
+    val dotenv = dotenv {
+        ignoreIfMissing = true
+    }
+
+    val resendApiKey: String =
+        System.getenv("RESEND_API_KEY")
+            ?: dotenv["RESEND_API_KEY"]
+            ?: error("RESEND_API_KEY não definida")
 }
