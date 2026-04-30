@@ -27,16 +27,16 @@ object MqttService {
                 .buildAsync()
 
             client.connectWith()
-                .simpleAuth()                                    // ← era userName()
-                .username(MqttConfig.USER)                   // ← era userName()
+                .simpleAuth()
+                .username(MqttConfig.USER)
                 .password(MqttConfig.PASSWORD.toByteArray())
-                .applySimpleAuth()                               // ← fecha o bloco
+                .applySimpleAuth()
                 .send()
                 .whenComplete { _, error ->
                     if (error != null) {
-                        println("❌ MQTT erro de conexão: ${error.message}")
+                        println("MQTT erro de conexão: ${error.message}")
                     } else {
-                        println("✅ MQTT conectado ao HiveMQ Cloud")
+                        println("MQTT conectado ao HiveMQ Cloud")
                         subscribe()
                     }
                 }
@@ -71,9 +71,9 @@ object MqttService {
             AlertaService.verificarEgerarAlertas(saved, config)
             WebSocketBroadcaster.broadcast(saved)
 
-            println("✅ Leitura salva e broadcast: $saved")
+            println("Leitura salva e broadcast: $saved")
         } catch (e: Exception) {
-            println("❌ Erro ao processar payload MQTT: ${e.message}")
+            println("Erro ao processar payload MQTT: ${e.message}")
         }
     }
 }
