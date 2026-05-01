@@ -58,8 +58,6 @@ fun Route.passwordRecoveryRoutes() {
                 destino = request.email,
                 token = token
             )
-
-            // 🔹 RESPOSTA PARA O APP (SEM TOKEN)
             call.respond(
                 HttpStatusCode.OK,
                 mapOf("message" to "Enviamos um código para seu email")
@@ -159,11 +157,11 @@ fun Route.passwordRecoveryRoutes() {
             )
         }
 
-        // 🔐 Hash da nova senha
+        // Hash da nova senha
         val novaSenhaHash = BCrypt.withDefaults()
             .hashToString(12, request.novaSenha.toCharArray())
 
-        // 📝 Atualiza senha no usuário
+        // Atualiza senha no usuário
         val updateResponse = client.patch("$supabaseUrl/rest/v1/usuarios") {
             header("apikey", supabaseKey)
             header("Authorization", "Bearer $supabaseKey")
@@ -175,7 +173,7 @@ fun Route.passwordRecoveryRoutes() {
             setBody(mapOf("senha_hash" to novaSenhaHash))
         }
 
-        // 🔒 Marca token como usado
+        // Marca token como usado
         client.patch("$supabaseUrl/rest/v1/reset_senha_tokens") {
             header("apikey", supabaseKey)
             header("Authorization", "Bearer $supabaseKey")
