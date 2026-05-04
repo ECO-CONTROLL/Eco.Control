@@ -20,7 +20,7 @@ suspend fun enviarEmailReset(
 
         setBody(
             EmailRequest(
-                from = "EcoControll <onboarding@resend.dev>",
+                from = "noreply@ecocontroll.fun",
                 to = listOf(destino),
                 subject = "Redefinição de senha - EcoControll",
                 html = """
